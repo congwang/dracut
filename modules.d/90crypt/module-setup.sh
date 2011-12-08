@@ -9,18 +9,13 @@ check() {
 
     . $dracutfunctions
 
-    is_crypt() { [[ $(get_fs_type /dev/block/$1) = crypto_LUKS ]]; }
-
     [[ $hostonly ]] && {
-        _rootdev=$(find_root_block_device)
-        if [[ $_rootdev ]]; then
-            # root lives on a block device, so we can be more precise about
-            # hostonly checking
-            check_block_and_slaves is_crypt "$_rootdev" || return 1
-        else
-            # root is not on a block device, use the shotgun approach
-            blkid | grep -q crypto\?_LUKS || return 1
-        fi
+        local _found
+        for fs in $host_fs_types; do
+            [[ "$fs" = "crypto_LUKS" ]] && _found="1"
+        done
+        [[ $_found ]] || return 1
+        unset _found
     }
 
     return 0
