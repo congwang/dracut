@@ -56,5 +56,8 @@ install() {
     inst ssh
     inst scp
     inst_sshenv
+
+    egrep -q '^root:' "$initdir/etc/passwd" 2>/dev/null || echo  'root:x:0:0::/root:/bin/sh' >> "$initdir/etc/passwd"
+    egrep -q '^nobody:' "$initdir/etc/passwd" 2>/dev/null || egrep '^nobody:' /etc/passwd >> "$initdir/etc/passwd"
 }
 
