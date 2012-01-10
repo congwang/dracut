@@ -106,13 +106,14 @@ For a complete list of kernel command line options see
             <option>-m</option>
           </term>
           <term>
-            <option>--modules&nbsp;<replaceable>&lt;list of dracut modules&gt;</replaceable></option>
+            <option>--modules&nbsp;<replaceable>&lt;module1:para1=val1:para2=val2 module2 ...&gt;</replaceable></option>
           </term>
           <listitem>
             <para>specify a space-separated list of dracut modules to call
 when building the initramfs.
 Modules are located in
-<filename>/usr/lib/dracut/modules.d</filename>. This parameter can be specified multiple times.</para>
+<filename>/usr/lib/dracut/modules.d</filename>. This parameter can be specified multiple times.
+You can also pass module specific parameters here, using colons, for example, -m ssh-client:sshkey=/root/ssh-key.</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -131,7 +132,7 @@ Modules are located in
             <option>-a</option>
           </term>
           <term>
-            <option>--add&nbsp;<replaceable>&lt;list of dracut modules&gt;</replaceable></option>
+            <option>--add&nbsp;<replaceable>&lt;module1:para1=val1:para2=val2 module2 ...&gt;</replaceable></option>
           </term>
           <listitem>
             <para>add a space-separated list of dracut modules to the default set of modules. This parameter can be specified multiple times.</para>
@@ -139,7 +140,7 @@ Modules are located in
         </varlistentry>
         <varlistentry>
           <term>
-            <option>--force-add&nbsp;<replaceable>&lt;list of dracut modules&gt;</replaceable></option>
+            <option>--force-add&nbsp;<replaceable>&lt;module1:para1=val1:para2=val2 module2 ...&gt;</replaceable></option>
           </term>
           <listitem>
             <para>force to add a space-separated list of dracut modules to the default set of modules, when -H is specified. This parameter can be specified multiple times.</para>
@@ -537,6 +538,19 @@ TARGET directory in the final initramfs. If SOURCE is a file, it will be install
             <para>Keep the initramfs temporary directory for debugging purposes.</para>
           </listitem>
         </varlistentry>
+      </variablelist>
+    </refsect2>
+    <refsect2>
+     <title>Module Specific Parameters</title>
+     <variablelist>
+        <varlistentry>
+          <term>
+            <option>ssh-client</option>
+          </term>
+          <listitem>
+            <para>sshkey=/path/to/sshkey (specifies the path to your ssh public key which will be used by ssh-client module)</para>
+          </listitem>
+       </varlistentry>
       </variablelist>
     </refsect2>
   </refsect1>

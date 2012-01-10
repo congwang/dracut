@@ -199,6 +199,13 @@ push_arg() {
     fi
 }
 
+declare -A dracut_module_args
+read_module_args() {
+    local _key="${1%%:*}"
+    local _val="${1#*:}"
+    dracut_module_args["$_key"]="$_val"
+}
+
 verbosity_mod_l=0
 
 while (($# > 0)); do
@@ -319,13 +326,23 @@ fi
 # these optins add to the stuff in the config file
 if (( ${#add_dracutmodules_l[@]} )); then
     while pop add_dracutmodules_l val; do
-        add_dracutmodules+=" $val "
+        if [[ "$val" =~ ":" ]]; then
+            add_dracutmodules+=" ${val%%:*} "
+            read_module_args "$val"
+        else
+            add_dracutmodules+=" $val "
+        fi
     done
 fi
 
 if (( ${#force_add_dracutmodules_l[@]} )); then
     while pop force_add_dracutmodules_l val; do
-        force_add_dracutmodules+=" $val "
+        if [[ "$val" =~ ":" ]]; then
+            force_add_dracutmodules+="${val%%:*} "
+            read_module_args "$val"
+        else
+            force_add_dracutmodules+=" $val "
+        fi
     done
 fi
 
@@ -364,7 +381,12 @@ fi
 if (( ${#dracutmodules_l[@]} )); then
     dracutmodules=''
     while pop dracutmodules_l val; do
-        dracutmodules+="$val "
+        if [[ "$val" =~ ":" ]]; then
+            dracutmodules+="${val%%:*} "
+            read_module_args "$val"
+        else
+            dracutmodules+="$val "
+        fi
     done
 fi
 
@@ -591,7 +613,7 @@ export initdir dracutbasedir dracutmodules drivers \
     add_drivers mdadmconf lvmconf filesystems \
     use_fstab libdir usrlibdir fscks nofscks cttyhack \
     stdloglvl sysloglvl fileloglvl kmsgloglvl logfile \
-    debug host_fs_types host_devs sshkey
+    debug host_fs_types host_devs sshkey dracut_module_args
 
 # Create some directory structure first
 [[ $prefix ]] && mkdir -m 0755 -p "${initdir}${prefix}"
