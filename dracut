@@ -118,7 +118,6 @@ Creates initial ramdisk images for preloading modules
   -M, --show-modules    Print included module's name to standard output during
                          build.
   --keep                Keep the temporary initramfs for debugging purposes
-  --sshkey [SSHKEY]     Add ssh key to initramfs (use with ssh-client module)
   --ctty                Add control tty for emergency shells
 EOF
 }
@@ -242,7 +241,6 @@ while (($# > 0)); do
         --debug)       debug="yes";;
         --profile)     profile="yes";;
         --ctty)        cttyhack="yes";;
-        --sshkey)      read_arg sshkey   "$@" || shift;;
         -v|--verbose)  ((verbosity_mod_l++));;
         -q|--quiet)    ((verbosity_mod_l--));;
         -l|--local)    allowlocal="yes" ;;
@@ -613,7 +611,7 @@ export initdir dracutbasedir dracutmodules drivers \
     add_drivers mdadmconf lvmconf filesystems \
     use_fstab libdir usrlibdir fscks nofscks cttyhack \
     stdloglvl sysloglvl fileloglvl kmsgloglvl logfile \
-    debug host_fs_types host_devs sshkey dracut_module_args
+    debug host_fs_types host_devs dracut_module_args
 
 # Create some directory structure first
 [[ $prefix ]] && mkdir -m 0755 -p "${initdir}${prefix}"
