@@ -270,6 +270,7 @@ rm -rf $RPM_BUILD_ROOT
 %{dracutlibdir}/modules.d/90livenet
 %{dracutlibdir}/modules.d/95nbd
 %{dracutlibdir}/modules.d/95nfs
+%{dracutlibdir}/modules.d/95ssh-client
 %{dracutlibdir}/modules.d/45ifcfg
 %{dracutlibdir}/modules.d/95znet
 
